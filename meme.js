@@ -9,7 +9,12 @@ function httpGet()
 let meme = httpGet()
 
 function getMeme() {
-    document.getElementById("meme").src = meme.url
+    if (meme.nsfw = "false") {
+        document.getElementById("meme").src = meme.url
+    }
+    else {
+        location.reload() 
+}
 }
 
 function getTitle() {
