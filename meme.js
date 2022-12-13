@@ -9,11 +9,11 @@ function httpGet()
 let meme = httpGet()
 
 function getMeme() {
-    if (meme.nsfw = "false") {
-        document.getElementById("meme").src = meme.url
+    if (meme.nsfw === true) {
+        location.reload() 
     }
     else {
-        location.reload() 
+        document.getElementById("meme").src = meme.url       
 }
 }
 
