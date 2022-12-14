@@ -1,29 +1,21 @@
-function httpGet()
-{
+function httpGet() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "https://meme-api.com/gimme", false );
-    xmlHttp.send( null );
+    xmlHttp.open("GET", "https://meme-api.com/gimme", false);
+    xmlHttp.send(null);
     return JSON.parse(xmlHttp.responseText);
 }
 
-let meme = httpGet()
+let meme
 
 function getMeme() {
-    if (meme.nsfw === true) {
-        location.reload() 
+    meme = httpGet()
+    while (meme.nsfw === true) {
+        meme = httpGet()
     }
-    else {
-        document.getElementById("meme").src = meme.url       
-}
-}
-
-function getTitle() {
+    document.getElementById("meme").src = meme.url
     document.getElementById("title").innerHTML = "Başlık: " + meme.title
+    document.getElementById("source-sub").innerHTML = "Kaynak Subreddit: " + meme.subreddit
 }
 
-function getSubreddit() {
-    document.write("<h2> Kaynak Subreddit: " + meme.subreddit + "</h2>") 
-}
-getTitle()
 getMeme()
-getSubreddit()
+document.getElementById("meme").addEventListener("click", getMeme)
