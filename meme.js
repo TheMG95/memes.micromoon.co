@@ -12,15 +12,21 @@ function requestMeme() {
 
 function setNSFWToggle() {
     if (getNSFWCookie()) {
-        nsfwToggle.textContent = "NSFW Göster"
-    } else {
         nsfwToggle.textContent = "NSFW Gösterme"
+    } else {
+        nsfwToggle.textContent = "NSFW Göster"
     }
 
 }
 
 function getNSFWCookie() {
-    return document.cookie.split("=")[1].split(";")[0] === "true"
+    try {
+        return document.cookie.split("=")[1].split(";")[0] === "true"
+    }
+    catch (TypeError) {
+        setNSFWCookie(false)
+        return false
+    }
 }
 
 function setNSFWCookie(value) {
@@ -44,10 +50,12 @@ function getMeme() {
     }
     document.getElementById("meme").src = meme.url
     document.getElementById("title").innerHTML = "Başlık: " + meme.title
+    document.getElementById("title-url").href = meme.postLink
     if (meme.nsfw) {
         document.getElementById("title").innerHTML += " (NSFW)"
     }
     document.getElementById("source-sub").innerHTML = "Kaynak Subreddit: " + meme.subreddit
+    document.getElementById("source-sub-url").href = "https://reddit.com/r/" + meme.subreddit
 }
 
 function timer() {
@@ -56,7 +64,6 @@ function timer() {
     }
     seconds--
     timerDisplay.textContent = seconds + " saniyeye yenilenecek"
-
 }
 
 getMeme()
