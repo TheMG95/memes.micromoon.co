@@ -1,6 +1,9 @@
 let meme
+let nsfwToggle = document.getElementById("nsfw-toggle")
+let timerDisplay = document.getElementById("timer")
+let seconds
 
-function httpGet() {
+function requestMeme() {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "https://meme-api.com/gimme", false);
     xmlHttp.send(null);
@@ -31,10 +34,12 @@ function toggleNSFW() {
 
 
 function getMeme() {
-    meme = httpGet()
+    seconds = 30
+    timerDisplay.textContent = "Yenileniyor..."
+    meme = requestMeme()
     if (!getNSFWCookie()) {
         while (meme.nsfw === true) {
-            meme = httpGet()
+            meme = requestMeme()
         }
     }
     document.getElementById("meme").src = meme.url
@@ -45,8 +50,18 @@ function getMeme() {
     document.getElementById("source-sub").innerHTML = "Kaynak Subreddit: " + meme.subreddit
 }
 
+function timer() {
+    if (seconds === 0) {
+        getMeme()
+    }
+    seconds--
+    timerDisplay.textContent = seconds + " saniyeye yenilenecek"
+
+}
+
 getMeme()
 document.getElementById("meme").addEventListener("click", getMeme)
-let nsfwToggle = document.getElementById("nsfw-toggle")
 nsfwToggle.addEventListener("click", toggleNSFW)
 setNSFWToggle()
+
+setInterval(timer, 1000)
