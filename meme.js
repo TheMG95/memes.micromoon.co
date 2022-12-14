@@ -12,9 +12,9 @@ function requestMeme() {
 
 function setNSFWToggle() {
     if (getNSFWCookie()) {
-        nsfwToggle.textContent = "Disable NSFW"
+        nsfwToggle.textContent = "NSFW Göster"
     } else {
-        nsfwToggle.textContent = "Enable NSFW"
+        nsfwToggle.textContent = "NSFW Gösterme"
     }
 
 }
